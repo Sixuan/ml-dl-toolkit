@@ -41,8 +41,9 @@ print(f"W1{W1.shape}:\n", W1, f"\nb1{b1.shape}:", b1)
 print(f"W2{W2.shape}:\n", W2, f"\nb2{b2.shape}:", b2)
 
 # step 3 train nn model
-# .compile  defines a loss function and specifies a compile optimization
-# .fit runs gradient descent and fits the weights to the data
+# .compile defines a loss function
+# .fit runs gradient descent and fits the weights to the data, epochs defines # of steps to run gradient descent
+# 
 
 model.compile(
     loss = tf.keras.losses.BinaryCrossentropy(),
