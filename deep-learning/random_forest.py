@@ -1,3 +1,38 @@
+import numpy as np
+import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from xgboost import XGBClassifier
+import matplotlib.pyplot as plt
+
+RANDOM_STATE = 55 ## We will pass it to every sklearn call so we ensure reproducibility
+
+
+### Prepare the data
+
+df = pd.read_csv("heart.csv")
+
+# categorical varibles
+cat_variables = ['Sex',
+'ChestPainType',
+'RestingECG',
+'ExerciseAngina',
+'ST_Slope'
+]
+
+# This will replace the columns with the one-hot encoded ones and keep the columns outside 'columns' argument as it is.
+df = pd.get_dummies(data = df,
+                         prefix = cat_variables,
+                         columns = cat_variables)
+
+features = [x for x in df.columns if x not in 'HeartDisease'] ## Removing our target variable
+
+### Split training, testing dataset
+X_train, X_val, y_train, y_val = train_test_split(df[features], df['HeartDisease'], train_size = 0.8, random_state = RANDOM_STATE)
+
+### build the model
 min_samples_split_list = [2,10, 30, 50, 100, 200, 300, 700]  ## If the number is an integer, then it is the actual quantity of samples,
                                              ## If it is a float, then it is the percentage of the dataset
 max_depth_list = [2, 4, 8, 16, 32, 64, None]
